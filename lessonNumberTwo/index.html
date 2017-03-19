@@ -16,6 +16,14 @@
 					{nome: "Crusoé", telefone: "99996666"},
 				];
 
+				$scope.operadoras = [
+					{nome: "Oi", codigo: 14, categoria: "Celular"},
+					{nome: "Vivo", codigo: 15, categoria: "Celular"},
+					{nome: "Tim", codigo: 41, categoria: "Celular"},
+					{nome: "GVT", codigo: 25, categoria: "Fixo"},
+					{nome: "Embratel", codigo: 21, categoria: "Fixo"},
+				];
+
 				$scope.adiocionandoContatos = function (contato) {
 					$scope.contatos.push(contato);
 					delete $scope.contato;
@@ -32,17 +40,23 @@
 				<tr>
 					<th class="text-center">Nome</th>
 					<th class="text-center">Telefone</th>
+					<th class="text-center">Operadora</th>
+					<th class="text-center">Categoria</th>
 				</tr>
 				<tr ng-repeat="contato in contatos">
 					<td>{{contato.nome}}</td>
 					<td>{{contato.telefone}}</td>
+					<td>{{contato.operadora.nome}}</td>
+					<td>{{contato.operadora.categoria}}</td>
 				</tr>
 			</table>
-			<br/>
-
+			<hr/>
 			<input class="form-control" type="text" placeholder="Nome" ng-model="contato.nome"/>
 			<input class="form-control" type="number" placeholder="Telefone" ng-model="contato.telefone"/>
-			<button class="btn btn-primary btn-block" ng-click="adiocionandoContatos(contato)">Adicionando Contatos</button>
+			<select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras">
+				<option value="">Selecione uma operadora</option>
+			</select>
+			<button class="btn btn-primary btn-block" ng-click="adiocionandoContatos(contato)" ng-disabled="!contato.nome || !contato.telefone">Adicionando Contatos</button>
 		</div>
 
 
