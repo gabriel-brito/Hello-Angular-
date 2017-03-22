@@ -27,6 +27,7 @@
 				$scope.adiocionandoContatos = function (contato) {
 					$scope.contatos.push(contato);
 					delete $scope.contato;
+					$scope.contatoForm.$setPristine();
 				};
 				$scope.apagarContatos = function (contatos){
 					$scope.contatos = contatos.filter(function (contato){
@@ -60,13 +61,30 @@
 				</tr>
 			</table>
 			<hr/>
-			<input class="form-control" type="text" placeholder="Nome" ng-model="contato.nome"/>
-			<input class="form-control" type="number" placeholder="Telefone" ng-model="contato.telefone"/>
-			<select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras">
-				<option value="">Selecione uma operadora</option>
-			</select>
-			<button class="btn btn-primary btn-block" ng-click="adiocionandoContatos(contato)" ng-disabled="!contato.nome || !contato.telefone">Adicionando Contatos</button>
-			<button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)" ng-if="isContatoSelecionado(contatos)">Apagando Contatos</button>
+			<form name="contatoForm">
+				<input class="form-control" type="text" placeholder="Nome" name="nome" ng-model="contato.nome" ng-minlength="10" ng-required="true"/>
+				<input class="form-control" type="number" placeholder="Telefone" name="telefone" ng-model="contato.telefone" ng-required="true" ng-pattern="/^\d{4,5}-\d{4}$/" ng-maxlength="10" />
+				<select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras">
+					<option value="">Selecione uma operadora</option>
+				</select>
+			</form>
+
+			<div class="alert alert-danger" ng-show="contatoForm.nome.$error.required && contatoForm.nome.$dirty">
+				Por favor, preencha o nome!
+			</div>
+			<div class="alert alert-danger" ng-show="contatoForm.nome.$error.minlength">
+				Por favor, o campo deve ter no mínimo 10 caracteres.
+			</div>
+
+			<div class="alert alert-danger" ng-show="contatoForm.telefone.$error.required && contatoForm.telefone.$dirty">
+				Por favor, preencha o telefone!
+			</div>
+			<div class="alert alert-danger" ng-show="contatoForm.telefone.$error.pattern">
+				O campo telefone deve ter o formato DDDDD-DDDD.
+			</div>
+
+			<button class="btn btn-primary btn-block" ng-click="adiocionandoContatos(contato)" ng-disabled="contatoForm.$invalid">Adicionando Contatos</button>
+			<button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)" ng-if="isContatoSelecionado(contatos)">Apagar Contatos</button>
 		</div>
 
 <!-- Thank you, Rodrigo Branas!  -->
