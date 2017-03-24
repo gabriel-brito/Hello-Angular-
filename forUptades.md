@@ -1,0 +1,1 @@
+I was watching the AngularJs Ajax request on Branas' channel, but I need to run NodeJs to go on with my lessons. I didn't had time to run NodeJs and keep moving with my lesson. I'll go on later, wait for it! it's gonna be legen... wait for it... dary!
